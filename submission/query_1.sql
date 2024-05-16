@@ -1,9 +1,8 @@
 create table deeptianievarghese22866.actors(
-actor varchar not null,
-actor_id varchar not null,
+actor varchar,
+actor_id varchar,
 films array(    --struct array for storing film variables for the actor
 row(
-year integer,  
 film varchar,
 votes integer,
 rating double,
@@ -14,6 +13,10 @@ is_active boolean,
 current_year integer
 )
 with
+  (
+    format = 'PARQUET',
+    partitioning = ARRAY['current_year']
+  )
   (
     format = 'PARQUET',
     partitioning = ARRAY['current_year']
