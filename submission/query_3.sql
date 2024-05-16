@@ -1,4 +1,4 @@
-create table deeptianievarghese22866.actors_history_scd(
+create table actors_history_scd(
 actor varchar,
 quality_class varchar,
 is_active boolean,
