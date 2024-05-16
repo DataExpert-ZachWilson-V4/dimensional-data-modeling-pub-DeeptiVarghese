@@ -17,7 +17,4 @@ with
     format = 'PARQUET',
     partitioning = ARRAY['current_year']
   )
-  (
-    format = 'PARQUET',
-    partitioning = ARRAY['current_year']
-  )
+  
