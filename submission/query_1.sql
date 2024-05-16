@@ -1,4 +1,4 @@
-create or replace table actors(
+create or replace table deeptianievarghese22866.actors(
 actor varchar,
 actor_id varchar,
 films array(    --struct array for storing film variables for the actor
@@ -17,4 +17,3 @@ with
     format = 'PARQUET',
     partitioning = ARRAY['current_year']
   )
-  
