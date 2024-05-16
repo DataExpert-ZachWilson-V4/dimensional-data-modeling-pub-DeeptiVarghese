@@ -10,19 +10,10 @@ WITH
         WHEN is_active THEN 1
         ELSE 0
       END AS is_active,
-       CASE    --case statement to determine if actor's quality class in previous year
-        WHEN LAG(quality_class, 1) OVER (
-          PARTITION BY
-            actor_id
-          ORDER BY
-            current_year
-        ) THEN 1
-        ELSE 0
-      END AS previous_quality_class,
-      CASE    --case statement to determine if actor was active in previous year
+      CASE    --case statement to determine if actor has records in previous year
         WHEN LAG(is_active, 1) OVER (
           PARTITION BY
-            actor_id
+            actor
           ORDER BY
             current_year
         ) THEN 1
@@ -31,20 +22,19 @@ WITH
     FROM
       deeptianievarghese22866.actors
     WHERE
-      current_year <= 2021   --read all historic records upto 2021
+      current_year <= 2001   --read all historic records upto 2001
   ),
   streaked AS (   --tracking state change for each actor - change from active-->inactive, inactive-->active
     SELECT
       *,
       SUM(            --summing up number of state changes for each actor ordered by year- change from active-->inactive, inactive-->active
         CASE
-          WHEN quality_class <> previous_quality_class THEN 1
           WHEN is_active <> is_active_last_year THEN 1
           ELSE 0
         END
       ) OVER (
         PARTITION BY
-          actor_id
+          actor
         ORDER BY
           current_year
       ) AS streak_identifier
@@ -57,7 +47,7 @@ SELECT
   MAX(is_active) = 1 AS is_active,
   MIN(current_year) AS start_date, --start and end year for an actor's active streak
   MAX(current_year) AS end_date,
-  2021 as current_year
+2001 as current_year
 FROM
   streaked
 GROUP BY
