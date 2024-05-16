@@ -19,7 +19,7 @@ WITH
         ) THEN 1
         ELSE 0
       END AS previous_quality_class,
-      CASE    --case statement to determine if actorwas active in previous year
+      CASE    --case statement to determine if actor was active in previous year
         WHEN LAG(is_active, 1) OVER (
           PARTITION BY
             actor_id
