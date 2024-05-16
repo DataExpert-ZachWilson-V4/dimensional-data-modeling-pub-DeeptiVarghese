@@ -1,4 +1,4 @@
-create table actors(
+create table deeptianievarghese22866.actors(
 actor varchar not null,
 actor_id varchar not null,
 films array(    --struct array for storing film variables for the actor
