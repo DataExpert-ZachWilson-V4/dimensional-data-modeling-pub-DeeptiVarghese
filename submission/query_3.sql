@@ -1,4 +1,4 @@
-create or replace table actors_history_scd(
+create or replace table deeptianievarghese22866.actors_history_scd(
 actor varchar,
 quality_class varchar,
 is_active boolean,
@@ -11,6 +11,8 @@ with
     format = 'PARQUET',
     partitioning = ARRAY['current_year']
   )
+
+
 
 
 
