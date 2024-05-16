@@ -1,7 +1,7 @@
-insert into actors --sequential loading of records based on year
+insert into deeptianievarghese22866.actors --sequential loading of records based on year
 		with last_year as( --reading previous year records from actors table
 		select * 
-		from actors
+		from deeptianievarghese22866.actors
 		where current_year=2000
 		),
 		this_year as( --reading current year records from actor_films table
@@ -34,4 +34,4 @@ insert into actors --sequential loading of records based on year
 		coalesce(t.year,l.current_year+1) as current_year
 		from last_year l
 		full outer join this_year t --full outer join previous year and current year records on actor key
-		on l.actor_id=t.actor_id
+		on l.actor=t.actor
