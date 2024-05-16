@@ -1,11 +1,11 @@
 INSERT INTO
-actors_history_scd  --incremental load of scd table from actors table
+deeptianievarghese22866.actors_history_scd  --incremental load of scd table from actors table
 WITH
   last_year_scd AS (   --read scd table for previous years
     SELECT
       *
     FROM
-     actors_history_scd
+     deeptianievarghese22866.actors_history_scd
     WHERE
       current_year = 2000
   ),
@@ -13,7 +13,7 @@ WITH
     SELECT
       *
     FROM
-      actors
+      deeptianievarghese22866.actors
     WHERE
       current_year = 2001
   ),
