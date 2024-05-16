@@ -13,7 +13,7 @@ actors_history_scd
     SELECT
       *
     FROM
-      actors
+     actors
     WHERE
       current_year = 2001
   ),
