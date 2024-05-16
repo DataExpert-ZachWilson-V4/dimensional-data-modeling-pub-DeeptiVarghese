@@ -22,7 +22,7 @@ WITH
     FROM
       actors
     WHERE
-      current_year <= 2021   --read all historic records upto 2021
+      current_year <= 2001   --read all historic records upto 2001
   ),
   streaked AS (   --tracking state change for each actor - change from active-->inactive, inactive-->active
     SELECT
@@ -47,7 +47,7 @@ SELECT
   MAX(is_active) = 1 AS is_active,
   MIN(current_year) AS start_date, --start and end year for an actor's active streak
   MAX(current_year) AS end_date,
-2021 as current_year
+2001 as current_year
 FROM
   streaked
 GROUP BY
