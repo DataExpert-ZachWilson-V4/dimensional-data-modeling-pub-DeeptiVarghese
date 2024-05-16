@@ -5,7 +5,7 @@ WITH
     SELECT
       *
     FROM
-     deeptianievarghese22866.actors_history_scd
+deeptianievarghese22866.actors_history_scd
     WHERE
       current_year = 2000
   ),
@@ -25,16 +25,14 @@ WITH
       COALESCE(l.end_date, t.current_year) AS end_date,
       CASE    --case statement to track state change from previous year to current year
         WHEN l.is_active <> t.is_active THEN 1
-        WHEN l.quality_class <> t.quality_class THEN 1
         WHEN l.is_active = t.is_active THEN 0
-        WHEN l.quality_class = t.quality_class THEN 0
       END AS did_change,
       l.is_active AS is_active_last_year,
       t.is_active AS is_active_this_year,
 coalesce(l.current_year+1,t.current_year) as current_year
     FROM
       last_year_scd l
-      FULL OUTER JOIN this_year_scd t ON l.actor_id = t.actor_id  --full outer join scd table with actor table on actor id and year
+      FULL OUTER JOIN this_year_scd t ON l.actor = t.actor  --full outer join scd table with actor table on actor and year
       AND l.end_date + 1 = t.current_year
   ),
   changes AS (   --track state changes and populate array accordingly with active/inactive state, start and end dates
