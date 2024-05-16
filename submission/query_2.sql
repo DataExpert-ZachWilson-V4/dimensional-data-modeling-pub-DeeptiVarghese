@@ -14,7 +14,6 @@ insert into deeptianievarghese22866.actors --sequential loading of records based
 		case when t.film is null then l.films --if no film array exists for actor in most recent year, keep film array from previous years
 		when t.film is not null and l.films is null then --if film array exists for actor in most recent year and no film array exists for previous years, add a row for most recent year
 		array[row(
-                t.year,
 		t.film,
 		t.votes,
 		t.rating,
@@ -22,7 +21,6 @@ insert into deeptianievarghese22866.actors --sequential loading of records based
 		)]
 		when t.film is not null and l.films is not null then --if film array exists for actor in most recent year and film array exists for previous years, add a row for most recent year and append earlier array along with most recent array
 		array[row(
-                t.year,
 		t.film,
 		t.votes,
 		t.rating,
@@ -36,4 +34,4 @@ insert into deeptianievarghese22866.actors --sequential loading of records based
 		coalesce(t.year,l.current_year+1) as current_year
 		from last_year l
 		full outer join this_year t --full outer join previous year and current year records on actor key
-		on l.actor_id=t.actor_id
+		on l.actor=t.actor
