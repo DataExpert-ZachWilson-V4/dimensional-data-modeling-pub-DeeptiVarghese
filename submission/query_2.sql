@@ -14,7 +14,7 @@ insert into actors --sequential loading of records based on year
 		case when t.film is null then l.films --if no film array exists for actor in most recent year, keep film array from previous years
 		when t.film is not null and l.films is null then --if film array exists for actor in most recent year and no film array exists for previous years, add a row for most recent year
 		array[row(
-    t.year,
+                t.year,
 		t.film,
 		t.votes,
 		t.rating,
@@ -22,7 +22,7 @@ insert into actors --sequential loading of records based on year
 		)]
 		when t.film is not null and l.films is not null then --if film array exists for actor in most recent year and film array exists for previous years, add a row for most recent year and append earlier array along with most recent array
 		array[row(
-    t.year,
+                t.year,
 		t.film,
 		t.votes,
 		t.rating,
