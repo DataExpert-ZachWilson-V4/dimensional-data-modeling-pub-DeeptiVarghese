@@ -1,5 +1,5 @@
 INSERT INTO
-actors_history_scd
+deeptianievarghese22866.actors_history_scd
 WITH
   lagged AS (   --tracking if an actor is active in current and previous years
     SELECT
@@ -29,7 +29,7 @@ WITH
         ELSE 0
       END AS is_active_last_year
     FROM
-      actors
+      deeptianievarghese22866.actors
     WHERE
       current_year <= 2021   --read all historic records upto 2021
   ),
