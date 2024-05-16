@@ -1,7 +1,7 @@
-insert into actors --sequential loading of records based on year
+insert into deeptianievarghese22866.actors --sequential loading of records based on year
 		with last_year as( --reading previous year records from actors table
 		select * 
-		from actors
+		from deeptianievarghese22866.actors
 		where current_year=2000
 		),
 		this_year as( --reading current year records from actor_films table
