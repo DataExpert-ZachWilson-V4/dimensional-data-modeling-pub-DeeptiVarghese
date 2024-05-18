@@ -35,3 +35,4 @@ insert into actors --sequential loading of records based on year
 		from last_year l
 		full outer join this_year t --full outer join previous year and current year records on actor key
 		on l.actor_id=t.actor_id
+                group by l.actor, t.actor, l.actor_id, t.actor_id, l.films, t.film, t.votes, t.rating, t.film_id, l.quality_class, l.current_year
