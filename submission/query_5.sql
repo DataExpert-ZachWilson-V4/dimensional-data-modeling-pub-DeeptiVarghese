@@ -30,6 +30,8 @@ actors_history_scd
       END AS did_change,
       l.is_active AS is_active_last_year,
       t.is_active AS is_active_this_year,
+      l.quality_class AS quality_class_last_year,
+      t.quality_class AS quality_class_this_year,
 coalesce(l.current_year+1,t.current_year) as current_year
     FROM
       last_year_scd l
@@ -45,10 +47,12 @@ coalesce(l.current_year+1,t.current_year) as current_year
         WHEN did_change = 0 THEN ARRAY[  --no state change from last year to current year-update end date to current year
           CAST(
             ROW(
+              quality_class,
               is_active_last_year,
               start_date,
               end_date + 1
             ) AS ROW(
+              quality_class varchar,
               is_active boolean,
               start_date integer,
               end_date integer
@@ -57,7 +61,8 @@ coalesce(l.current_year+1,t.current_year) as current_year
         ]
         WHEN did_change = 1 THEN ARRAY[ --there is state change from last year to current year-add two records - for last year and current year
           CAST(
-            ROW(is_active_last_year, start_date, end_date) AS ROW(
+            ROW(quality_class,is_active_last_year, start_date, end_date) AS ROW(
+              quality_class varchar,
               is_active boolean,
               start_date integer,
               end_date integer
@@ -65,10 +70,12 @@ coalesce(l.current_year+1,t.current_year) as current_year
           ),
           CAST(
             ROW(
+              quality_class,
               is_active_this_year,
               current_year,
               current_year
             ) AS ROW(
+              quality_class varchar,
               is_active boolean,
               start_date integer,
               end_date integer
@@ -78,10 +85,12 @@ coalesce(l.current_year+1,t.current_year) as current_year
         WHEN did_change IS NULL THEN ARRAY[ --state change is null-actor has no historic records - add current year record to array
           CAST(
             ROW(
+              COALESCE(quality_class_last_year, quality_class_this_year),
               COALESCE(is_active_last_year, is_active_this_year),
               start_date,
               end_date
             ) AS ROW(
+              quality_class varchar,
               is_active boolean,
               start_date integer,
               end_date integer
@@ -94,7 +103,7 @@ coalesce(l.current_year+1,t.current_year) as current_year
   )
 SELECT
   actor,
-  quality_class,
+  arr.quality_class,
   arr.is_active,  --explode change array to populate scd table
   arr.start_date,
   arr.end_date,
