@@ -1,3 +1,5 @@
+DECLARE @year INT = 2022;
+
 INSERT INTO
 actors_history_scd  --incremental load of scd table from actors table
 WITH
@@ -7,7 +9,7 @@ WITH
     FROM
 actors_history_scd
     WHERE
-      current_year = 2000
+      current_year = @year-1
   ),
   this_year_scd AS (   --read actor table for most recent year
     SELECT
@@ -15,7 +17,7 @@ actors_history_scd
     FROM
      actors
     WHERE
-      current_year = 2001
+      current_year = @year
   ),
   combined AS (   --full outer join both scd table with historic data and actor table wth most recent data
     SELECT
@@ -24,8 +26,8 @@ actors_history_scd
       COALESCE(l.start_date, t.current_year) AS start_date,
       COALESCE(l.end_date, t.current_year) AS end_date,
       CASE    --case statement to track state change from previous year to current year
-        WHEN l.is_active <> t.is_active THEN 1
-        WHEN l.is_active = t.is_active THEN 0
+        WHEN l.is_active <> t.is_active OR l.quality_class <> t.quality_class THEN 1
+        WHEN l.is_active = t.is_active AND l.quality_class = t.quality_class THEN 0
       END AS did_change,
       l.is_active AS is_active_last_year,
       t.is_active AS is_active_this_year,
