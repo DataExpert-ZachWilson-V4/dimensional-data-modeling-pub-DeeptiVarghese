@@ -58,7 +58,7 @@ WITH
 SELECT
   actor,
   quality_class,
-  MAX(is_active) = 1 AS is_active,
+  is_active,
   MIN(current_year) AS start_date, --start and end year for an actor's active streak
   MAX(current_year) AS end_date,
 2021 as current_year
@@ -67,4 +67,5 @@ FROM
 GROUP BY
   actor,
   quality_class,
+  is_active,
 streak_identifier
