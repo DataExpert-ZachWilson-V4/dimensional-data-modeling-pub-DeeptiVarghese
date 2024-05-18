@@ -6,7 +6,7 @@ insert into actors --sequential loading of records based on year
 		),
 		this_year as( --reading current year records from actor_films table
 		select *
-		from actor_films
+		from bootcamp.actor_films
 		where year=2001
 		)
 		select coalesce(l.actor,t.actor)as actor, --merge common columns
