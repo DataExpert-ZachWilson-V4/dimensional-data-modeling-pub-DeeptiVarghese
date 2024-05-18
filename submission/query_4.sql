@@ -6,21 +6,14 @@ WITH
       actor,
       quality_class,
       current_year,
-      CASE  --case statement to determine if actor has records in current year
-        WHEN is_active THEN 1
-        ELSE 0
-      END AS is_active,
-      CASE    --case statement to determine if actor has records in previous year
-        WHEN LAG(is_active, 1) OVER (
+       is_active,  --statement to determine actor's active status in current year
+     LAG(is_active, 1) OVER (     --statement to determine actor's active status in previous year
           PARTITION BY
             actor
           ORDER BY
             current_year
-        ) THEN 1
-        ELSE 0
-      END AS is_active_last_year,
-  --statement to determine actor's quality class in previous year
-       LAG(quality_class, 1) OVER (
+        )  AS is_active_last_year,
+       LAG(quality_class, 1) OVER (    --statement to determine actor's quality class in previous year
           PARTITION BY
             actor
           ORDER BY
