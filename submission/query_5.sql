@@ -1,4 +1,3 @@
-DECLARE @year INT = 2022;
 
 INSERT INTO
 actors_history_scd  --incremental load of scd table from actors table
@@ -9,7 +8,7 @@ WITH
     FROM
 actors_history_scd
     WHERE
-      current_year = @year-1
+      current_year = 2021
   ),
   this_year_scd AS (   --read actor table for most recent year
     SELECT
@@ -17,7 +16,7 @@ actors_history_scd
     FROM
      actors
     WHERE
-      current_year = @year
+      current_year = 2022
   ),
   combined AS (   --full outer join both scd table with historic data and actor table wth most recent data
     SELECT
