@@ -26,7 +26,7 @@ WITH
           ORDER BY
             current_year
         ) THEN quality_class
-      END AS quality_class_last_year,
+      END AS quality_class_last_year
     FROM
       actors
     WHERE
