@@ -1,5 +1,5 @@
 INSERT INTO
-actors_history_scd
+deeptianievarghese22866.actors_history_scd
 WITH
   lagged AS (   --tracking if an actor is active in current and previous years
     SELECT
@@ -19,16 +19,15 @@ WITH
         ) THEN 1
         ELSE 0
       END AS is_active_last_year,
-  CASE    --case statement to determine actor's quality class in previous year
-        WHEN LAG(quality_class, 1) OVER (
+  --statement to determine actor's quality class in previous year
+       LAG(quality_class, 1) OVER (
           PARTITION BY
             actor
           ORDER BY
             current_year
-        ) THEN quality_class
-      END AS quality_class_last_year
+        ) AS quality_class_last_year
     FROM
-      actors
+      deeptianievarghese22866.actors
     WHERE
       current_year <= 2021   --read all historic records upto 2021
   ),
@@ -46,7 +45,7 @@ WITH
     quality_class = quality_class_last_year
     AND is_active = is_active_last_year
   )
-    THEN 0 END
+    THEN 0 END)
   OVER (
         PARTITION BY
           actor
