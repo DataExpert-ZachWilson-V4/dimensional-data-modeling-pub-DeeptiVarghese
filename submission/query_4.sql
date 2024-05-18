@@ -18,7 +18,15 @@ WITH
             current_year
         ) THEN 1
         ELSE 0
-      END AS is_active_last_year
+      END AS is_active_last_year,
+  CASE    --case statement to determine actor's quality class in previous year
+        WHEN LAG(quality_class, 1) OVER (
+          PARTITION BY
+            actor
+          ORDER BY
+            current_year
+        ) THEN quality_class
+      END AS quality_class_last_year,
     FROM
       actors
     WHERE
@@ -29,10 +37,17 @@ WITH
       *,
       SUM(            --summing up number of state changes for each actor ordered by year- change from active-->inactive, inactive-->active
         CASE
-          WHEN is_active <> is_active_last_year THEN 1
-          ELSE 0
-        END
-      ) OVER (
+          WHEN (
+    quality_class <> quality_class_last_year
+    OR is_active <> is_active_last_year
+  )
+    THEN 1
+  WHEN (
+    quality_class = quality_class_last_year
+    AND is_active = is_active_last_year
+  )
+    THEN 0 END
+  OVER (
         PARTITION BY
           actor
         ORDER BY
